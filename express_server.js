@@ -1,6 +1,6 @@
 /** ******** Main Server File - express_server.js ******** 
  *   Creates a Node.js web server using the http API
- *    - http request on port 8080  
+ *    - http requests on port 8080  
  */
 const express = require("express");
 const app     =express();
@@ -17,5 +17,9 @@ app.get("/", (req, res) => {
 
 app.listen(PORT, () => {
 	console.log(`Example app listening on port ${PORT}!`);
+});
+
+app.get("/urls.json", (req,res) => {
+	res.json(urlDatabase);
 });
 
