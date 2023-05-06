@@ -14,6 +14,14 @@ const urlDatabase = {
 	"9sm5xK":"http://www.google.com"
 };
 
+/** *** GET Route for urls_new.ejs ***
+ *    - route definition/handler to render the urls_new.ejs template in 
+ *      browser & present form to user. Added above pp.get("/urls/:id", ...) 
+ */
+app.get("/urls/new", (req, res) => {
+  res.render("urls_new");
+});
+
 app.get("/urls/:id", (req, res) => {
   const templateVars = {
     id: req.params.id,
