@@ -6,15 +6,22 @@
 const express = require("express");
 const app     =express();
 const PORT    = 8080;  /** default port 8080 */
+const bodyParser = require("body-parser");
 
 /** set view engine to ejs & add middleware/body-parse for POST requests */
 app.set( "view engine", "ejs");
-app.use(express.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({ extended: true }));
 
 app.post("/urls", (req, res) => {
-  console.log(req.body); /** Log the POST request body to the console */
-  res.send("Ok"); /** [TODO]: Respond with 'Ok' (we will replace this) */
+  const longURL = req.body.longURL;
+  const id = generateRandomString(6);
+  urlDatabase[id] = longURL;
+  res.redirect(`/urls/${id}`);
 });
+
+app.get("/u/:id", (req, res) => {
+  const longURL = urlDatabase[req.params.id];
+  res.redirect(longURL);
 
 /** **** HTTP ROUTES **** */
 
@@ -56,12 +63,12 @@ app.listen(PORT, () => {
 	console.log(`Example app listening on port ${PORT}!`);
 });
 
-/** generate random string for short URL - string length to 6 chars */
+/** generate random string for short URL - string length to length variable */
 function generateRandomString(length) {
   const characters =
     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
   let result = "";
-  for (let i = 0; i < 6; i++) {
+  for (let i = 0; i < length; i++) {
     result += characters.charAt(Math.floor(Math.random() * characters.length));
   }
   return result;
