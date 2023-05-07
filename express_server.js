@@ -8,16 +8,17 @@ const app     =express();
 const PORT    = 8080;  /** default port 8080 */
 
 app.set( "view engine", "ejs");
+app.use(express.urlencoded({ extended: true }));
+app.post("/urls", (req, res) => {
+  console.log(req.body); // Log the POST request body to the console
+  res.send("Ok"); // Respond with 'Ok' (we will replace this)
+});
 
 const urlDatabase = {
 	"b2xVn2":"http://www.lighthouselabs.ca",
 	"9sm5xK":"http://www.google.com"
 };
 
-/** *** GET Route for urls_new.ejs ***
- *    - route definition/handler to render the urls_new.ejs template in 
- *      browser & present form to user. Added above pp.get("/urls/:id", ...) 
- */
 app.get("/urls/new", (req, res) => {
   res.render("urls_new");
 });
