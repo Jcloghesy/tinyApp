@@ -99,6 +99,7 @@ app.post("/urls/:id/delete", (req, res) => {
 app.post("/login", (req, res) => {
   const { username } = req.body;
   res.cookie("username", username);
+  res.redirect("/urls");
 });
 
 /** generate random string for short URL - string length to length variable */
