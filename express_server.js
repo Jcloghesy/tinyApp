@@ -96,6 +96,11 @@ app.post("/urls/:id/delete", (req, res) => {
   res.redirect("/urls");
 });
 
+app.post("/login", (req, res) => {
+  const { username } = req.body;
+  res.cookie("username", username);
+});
+
 /** generate random string for short URL - string length to length variable */
 function generateRandomString(length) {
   const characters =
