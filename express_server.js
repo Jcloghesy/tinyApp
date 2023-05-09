@@ -70,8 +70,8 @@ app.get("/urls/:id", (req, res) => {
 app.get("/u/:shortURL", (req, res) => {
   const longURL = urlDatabase[req.params.shortURL];
   if (longURL === undefined) {
-app.get("/u/:shortURL", (req, res) => {  
   res.status(302);
+  }
 });
 
 app.get("/u/:id", (req, res) => {
@@ -113,6 +113,12 @@ app.post("/login", (req, res) => {
   res.redirect("/urls");
 });
 
+app.post("/logout", (req, res) => {
+  const { username } = req.body;
+  res.clearCookie("username", username);
+  res.redirect("/urls");
+});
+
 /** generate random string for short URL - string length to length variable */
 function generateRandomString(length) {
   const characters =
@@ -122,5 +128,5 @@ function generateRandomString(length) {
     result += characters.charAt(Math.floor(Math.random() * characters.length));
   }
   return result;
-}
-});
+};
+
