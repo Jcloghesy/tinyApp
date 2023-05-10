@@ -1,35 +1,29 @@
-/** ******** Main Server File - express_server.js ******** 
- *   Creates a Node.js web server using the http API
- */
+/** ******** MAIN SERVER FILE - express_server.js ******* */
 
 const express = require("express");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
-const app     =express();
-const PORT    = 8080;  /** default port 8080 */
+
+const app     =express(); 
+const PORT    = 8080; 
 
 const urlDatabase = {
 	"b2xVn2":"http://www.lighthouselabs.ca",
 	"9sm5xK":"http://www.google.com"
 };
 
-app.listen(PORT, () => {
-	console.log(`Example app listening on port ${PORT}!`);
+app.listen(PORT, () => {console.log(`Example app listening on port ${PORT}!`);
 });
 
-/** set view engine to ejs & add middleware/body-parse for POST requests */
-app.set( "view engine", "ejs");
-
+app.set( "view engine", "ejs"); 
 app.use(express.urlencoded({ extended: true }));
-
 app.use(cookieParser());
 
-/** ROUTES  */
 
+/** ************ ROUTES ************ */
 
 /** *** GET REQUESTS *** */
 
-/** Responds to / Get request with "Hello!" text string */
 app.get("/", (req, res) => { 
 	res.send("Hello!");
 });
@@ -39,7 +33,6 @@ app.get("/hello",(req,res)=>{
 	"<html><body>Hello <b>World</b></body></html>\n");
 });
 
-/** Responds to /url Get rsquest with rendered HTML of urls_index.ejs */
 app.get("/urls", (req, res) => {
     const templateVars = {
     urls: urlDatabase,
@@ -48,7 +41,6 @@ app.get("/urls", (req, res) => {
   res.render("urls_index", templateVars);
 });
 
-/** Responds to /url Get request with rendered HTML of urls_new.ejs */
 app.get("/urls/new", (req, res) => {
   res.render("urls_new");
   const templateVars = {
@@ -66,7 +58,6 @@ app.get("/urls/:id", (req, res) => {
   res.render("urls_show", templateVars);
 });
 
-/* Responds to '/u/:shortURL' GET request with long URL from the urlDatabase */
 app.get("/u/:shortURL", (req, res) => {
   const longURL = urlDatabase[req.params.shortURL];
   if (longURL === undefined) {
@@ -83,10 +74,8 @@ app.get("/urls.json", (req,res) => {
 	res.json(urlDatabase);
 });
 
-
 /** *** POSTS **** */
 
-//** Responds to '/urls' POST request redirect generated shortURL */
 app.post("/urls", (req, res) => {
   const longURL = req.body.longURL;
   const id = generateRandomString(6);
@@ -115,7 +104,19 @@ app.post("/login", (req, res) => {
 
 app.post("/logout", (req, res) => {
   const { username } = req.body;
-  res.clearCookie("username", username);
+  res.clearCookie("username");
+  res.redirect("/urls");
+});
+
+app.post("/register", (req, res) => {
+  const { email, password } = req.body;
+  const id = generateRandomString();
+  users[id] = {
+    id: id,
+    email: email,
+    password: password,
+  };
+  res.cookie("user_id", id);
   res.redirect("/urls");
 });
 
