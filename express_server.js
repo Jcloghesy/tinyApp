@@ -74,6 +74,13 @@ app.get("/urls.json", (req,res) => {
 	res.json(urlDatabase);
 });
 
+app.get("/register", (req, res) => {
+  const templateVars = {
+    username: "username",
+  };
+  res.render("register", templateVars);
+});
+
 /** *** POSTS **** */
 
 app.post("/urls", (req, res) => {
