@@ -95,6 +95,13 @@ app.get("/register", (req, res) => {
   res.render("register", templateVars);
 });
 
+app.get("/login", (req, res) => {
+  const templateVars = {
+    user: users[req.cookies["user_id"]],
+  };
+  res.render("login", templateVars);
+});
+
 /** *** POSTS **** */
 
 app.post("/urls", (req, res) => {
@@ -117,16 +124,16 @@ app.post("/urls/:id/delete", (req, res) => {
   res.redirect("/urls");
 });
 
-app.post("/login", (req, res) => {
-  const { username } = req.body;
-  res.cookie("username", username);
-  res.redirect("/urls");
+app.get("/login", (req, res) => {
+  const templateVars = {
+    user: users[req.cookies["user_id"]],
+  };
+  res.render("login", templateVars);
 });
 
 app.post("/logout", (req, res) => {
-  const { username } = req.body;
-  res.clearCookie("username");
-  res.redirect("/urls");
+  res.clearCookie("user_id");
+  res.redirect("/login");
 });
 
 app.post("/register", (req, res) => {

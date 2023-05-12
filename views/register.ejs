@@ -2,10 +2,9 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, shrink-to-fit=no"
-    />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <title>TinyApp - Register</title>
+    
     <!-- Bootstrap CSS -->
     <link
       rel="stylesheet"
@@ -13,20 +12,21 @@
       integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
       crossorigin="anonymous"
     />
-    <title>Register with TinyApp</title>
   </head>
+
   <body>
     <%- include('partials/_header') %>
-    <h3>Create Account</h3>
+    <main style="margin: 1em;">
+    <h1>Create Account</h1>
     <form method="POST" action="/register">
-      <label for="email">Email Address</label>
-      <input type="email" name="email" id="email" required />
-      <label for="password">Password</label>
-      <input type="password" name="password" id="password" required />
-      <div>
-        <button type="submit" class="btn btn-primary">Register</button>
+      <label for="email">Email Address</label><br>
+      <input type="email" name="email" id="email" required /><br>
+      <label for="password">Password</label><br>
+      <input type="password" name="password" id="password" required /><br>
+      <button type="submit" class="btn btn-primary">Register</button>
       </div>
     </form>
+    
     <!-- Bootstrap JS -->
     <script
       src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
