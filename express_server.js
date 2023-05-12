@@ -3,6 +3,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
+const { render } = require("ejs");
 
 const app     =express(); 
 const PORT    = 8080; 
@@ -130,11 +131,17 @@ app.post("/logout", (req, res) => {
 
 app.post("/register", (req, res) => {
   const { email, password } = req.body;
+  if (!email || !password) {
+    return res.status(400).send("Please provide both email & password");
+  }
+  if (getUserByEmail(email, users)) {
+    return res.status(400).send("Email already exists");
+  }
   const id = generateRandomString();
   users[id] = {
-    id: id,
-    email: email,
-    password: password,
+    id        : id,
+    email     : email,
+    password  : password,
   };
   res.cookie("user_id", id);
   res.redirect("/urls");
@@ -151,3 +158,11 @@ function generateRandomString(length) {
   return result;
 };
 
+function getUserByEmail(email, users) {
+  for (const userId in users) {
+    if (users[userId].email === email) {
+      return users[userId];
+    }
+  }
+  return null;
+}
