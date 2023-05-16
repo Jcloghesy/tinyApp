@@ -140,6 +140,18 @@ app.post("/logout", (req, res) => {
   res.redirect("/urls");
 });
 
+app.post("/register", (req, res) => {
+  const { email, password } = req.body;
+  const id = generateRandomString();
+  users[id] = {
+    id: id,
+    email: email,
+    password: password,
+  };
+  res.cookie("user_id", id);
+  res.redirect("/urls");
+});
+
 /** generate random string for short URL - string length to length variable */
 function generateRandomString(length) {
   const characters =
