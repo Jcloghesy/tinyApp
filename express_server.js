@@ -137,7 +137,7 @@ res.cookie("user_id", user.id);    //update to user_id from username
 
 app.post("/logout", (req, res) => {
   res.clearCookie("user_id");     //update to user_id from username
-  res.redirect("/login");
+  res.redirect("/login");        // redirect to login
 });
 
 app.post("/register", (req, res) => {
