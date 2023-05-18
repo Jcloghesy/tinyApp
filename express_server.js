@@ -13,6 +13,7 @@ const urlDatabase = {
 	"9sm5xK":"http://www.google.com"
 };
 
+
 const users = {
   userRandomID: {
     id: "userRandomID",
@@ -155,6 +156,9 @@ app.post("/urls/:id", (req, res) => {
   } else if (!req.cookies["user_id"]) {
     res.redirect("/urls");
   } else if (!urlDatabase[shortURL]) {
+    res.redirect("/urls");
+  }
+  res.send("You do not have permission edit");
 });
 
 app.post("/urls/:id/delete", (req, res) => {
@@ -168,6 +172,8 @@ app.post("/urls/:id/delete", (req, res) => {
   } else if (!urlDatabase[shortURL]) {
     res.redirect("/urls");
   } else {
+    res.send("You do not have permission to delete");
+  }
 });
 
 app.post("/login", (req, res) => {
