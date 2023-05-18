@@ -89,8 +89,12 @@ app.get("/u/:shortURL", (req, res) => {
 });
 
 app.get("/u/:id", (req, res) => {
-  const longURL = urlDatabase[req.params.id];
-  res.redirect(longURL);
+  const longURL = urlDatabase[req.params.id].longURL;
+  if (!longURL) {
+    res.send("URL Ids do not exist");
+  } else {
+    res.redirect(longURL);
+  }
 });
 
 app.get("/urls.json", (req,res) => {
