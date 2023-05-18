@@ -48,18 +48,28 @@ app.get("/hello",(req,res)=>{
 });
 
 app.get("/urls", (req, res) => {
-    const templateVars = {
-    urls: urlDatabase,
-    user: users[req.cookies["user_id"]],//update to user_id from username
+  if (!req.session["user_id"]) {
+    res.send(
+      '<html><body><h1>Please log in <a href="/login">login</a> </h1></body></html>'
+    );
+  }
+  const templateVars = {
+    urls: urlsForUser(req.session["user_id"], urlDatabase),
+    user: users[req.session["user_id"]],
   };
   res.render("urls_index", templateVars);
 });
 
 app.get("/urls/new", (req, res) => {
+  const user = users[req.session["user_id"]];//update to user_id from username
   const templateVars = {
-    user: users[req.cookies["user_id"]],//update to user_id from username
+    user: user,
   };
-  res.render("urls_new", templateVars);
+  if (!user) {
+    res.redirect("/login");
+  } else {
+    res.render("urls_new", templateVars);
+  }
 });
 
 app.get("/urls/:id", (req, res) => {
@@ -88,26 +98,43 @@ app.get("/urls.json", (req,res) => {
 });
 
 app.get("/login", (req, res) => {
-  const templateVars = {
-    user: users[req.cookies["user_id"]],//update to user_id from username
-  };
-  res.render("login", templateVars);
+  const user = users[req.cookies["user_id"]];//update to user_id from username
+  if (user) {
+    res.redirect("/urls");
+  } else {
+    const templateVars = {
+      user: user,
+    };
+    res.render("login", templateVars);
+  }
 });
 
 app.get("/register", (req, res) => {
-  const templateVars = {
-    user: users[req.cookies["user_id"]],//update to user_id from username
-  };
-  res.render("register", templateVars);
+  const user = users[req.session["user_id"]];//update to user_id from username
+  if (user) {
+    res.redirect("/urls");
+  } else {
+    const templateVars = {
+      user: user,
+    };
+    res.render("registration", templateVars);
+  }
 });
+
 
 /** *** POSTS **** */
 
 app.post("/urls", (req, res) => {
   const longURL = req.body.longURL;
-  const id = generateRandomString(6);
-  urlDatabase[id] = longURL;
-  res.redirect(`/urls/${id}`);
+  const user = users[req.session["user_id"]];
+  if (!user) {
+    res.send("You must login/register");
+  } else {
+    const id = generateRandomString(6);
+    const obj = { longURL: longURL, userID: user.id };
+    urlDatabase[id] = obj;
+    res.redirect(`/urls/${id}`);
+  }
 });
 
 app.post("/urls/:id", (req, res) => {
@@ -141,21 +168,24 @@ app.post("/logout", (req, res) => {
 });
 
 app.post("/register", (req, res) => {
-  const { email, password } = req.body;
+  const email = req.body.email;
+  const password = req.body.password;
   if (!email || !password) {
-    return res.status(400).send("Please provide both email & password");
+    res.status(400).send("Please provide both email & password");
+    return;
   }
   if (getUserByEmail(email, users)) {
-    return res.status(400).send("Email already exists");
+    res.status(400).send("Email already exists");
+    return;
   }
-  const id = generateRandomString();
-  users[id] = {
-    id        : id,
+  const userId = generateRandomString(7);
+  users[userId] = {
+    id        : userId,
     email     : email,
     password  : password,
   };
   res.cookie("user_id", id);     //update to user_id from username
-  res.redirect("/urls");
+  res.redirect("/urls");        // redirect to urls
 });
 
 /** generate random string for short URL - string length to length variable */
