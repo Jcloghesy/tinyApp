@@ -35,7 +35,11 @@ app.listen(PORT, () => {console.log(`Example app listening on port ${PORT}!`);
 
 app.set( "view engine", "ejs"); 
 app.use(express.urlencoded({ extended: true }));
-app.use(cookieParser());
+app.use(cookieSession({
+    name: "session",
+    keys: ["mySecKey"],
+    maxAge: 24 * 60 * 60 * 1000,
+});
 
 
 /** ************ ROUTES ************ */
@@ -65,11 +69,11 @@ app.get("/urls", (req, res) => {
 });
 
 app.get("/urls/new", (req, res) => {
-  const user = users[req.cookies["user_id"]];//update to user_id from username
+  const user = users[req.session["user_id"]];//update to user_id from username
   const templateVars = {
-    user: users[req.cookies["user_id"]],
+    user: users[req.session["user_id"]],
     id: req.params.id,
-    longURL: urlsForUser(req.cookies["user_id"]),
+    longURL: urlsForUser(req.session["user_id"]),
   };
   if (!user) {
     res.redirect("/login");
@@ -82,7 +86,7 @@ app.get("/urls/:id", (req, res) => {
   const templateVars = {
     id: req.params.id,
     longURL: urlDatabase[req.params.id],
-    user: users[req.cookies["user_id"]],//update to user_id from username
+    user: users[req.session["user_id"]],//update to user_id from username
   };
   res.render("urls_show", templateVars);
 });
@@ -108,7 +112,7 @@ app.get("/urls.json", (req,res) => {
 });
 
 app.get("/login", (req, res) => {
-  const user = users[req.cookies["user_id"]];//update to user_id from username
+  const user = users[req.session["user_id"]];//update to user_id from username
   if (user) {
     res.redirect("/urls");
   } else {
@@ -152,11 +156,11 @@ app.post("/urls/:id", (req, res) => {
   const newLongURL = req.body.longURL;
   urlDatabase[shortURL] = newLongURL;
   res.redirect("/urls/");
-  if (urlDatabase[shortURL].userID === req.cookies["user_id"]) {
+  if (urlDatabase[shortURL].userID === req.session["user_id"]) {
     urlDatabase[shortURL].longURL = longURL;
     res.redirect("/urls");
     console.log("urlDatabase: ", urlDatabase);
-  } else if (!req.cookies["user_id"]) {
+  } else if (!req.session["user_id"]) {
     res.redirect("/urls");
   } else if (!urlDatabase[shortURL]) {
     res.redirect("/urls");
@@ -168,9 +172,9 @@ app.post("/urls/:id/delete", (req, res) => {
   const shortURL = req.params.id;
   delete urlDatabase[shortURL];
   res.redirect("/urls");
-  if (urlDatabase[shortURL].userID === req.cookies["user_id"]) {
+  if (urlDatabase[shortURL].userID === req.session["user_id"]) {
     delete urlDatabase[shortURL];
-  } else if (!req.cookies["user_id"]) {
+  } else if (!req.session["user_id"]) {
     res.redirect("/urls");
   } else if (!urlDatabase[shortURL]) {
     res.redirect("/urls");
@@ -189,11 +193,11 @@ if (!bcrypt.compareSync(password, user.password)) {
    res.status(403).send("Incorrect password");
    return;
 }
-res.cookie("user_id", user.id);    //update to user_id from username
+res.session.user_id = user.id;    //update to user_id from username
 });
 
 app.post("/logout", (req, res) => {
-  res.clearCookie("user_id");     //update to user_id from username
+  req.session.user_id = null;     //update to user_id from username
   res.redirect("/login");        // redirect to login
 });
 
@@ -215,7 +219,7 @@ app.post("/register", (req, res) => {
     password  : password,
     password  : bcrypt.hashSync(password, 10),
   };
-  res.cookie("user_id", id);     //update to user_id from username
+  res.session.user_id = user.id; //update to user_id from username
   res.redirect("/urls");        // redirect to urls
 });
 
