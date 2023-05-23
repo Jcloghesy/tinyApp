@@ -4,7 +4,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const cookieSession = require("cookie-session");
 const bcrypt = require("bcryptjs");
-const { render } = require("ejs");
+const { generateRandomString, getUserByEmail, urlsForUser } = require("./helpers");
 
 const app     =express(); 
 const PORT    = 8080; 
