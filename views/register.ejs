@@ -2,9 +2,11 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <title>TinyApp - Register</title>
-    
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+
     <!-- Bootstrap CSS -->
     <link
       rel="stylesheet"
@@ -12,18 +14,56 @@
       integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
       crossorigin="anonymous"
     />
+
+    <title>Register - TinyApp</title>
   </head>
 
   <body>
-    <%- include('partials/_header') %>
-    <main style="margin: 1em;">
-    <h1>Create Account</h1>
+    
+    <header>
+      <!-- Including a header partial -->
+      <%- include('partials/_header') %>
+    </header>
+    
+    <style>
+      form {
+        display: flex;
+        flex-direction: column;
+        max-width: 300px;
+        margin: 0 auto;
+      }
+
+      label {
+        margin-bottom: 0.5rem;
+      }
+
+      input[type="email"],
+      input[type="password"] {
+        padding: 0.5rem;
+        margin-bottom: 1rem;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+      }
+
+      button {
+        padding: 0.5rem 1rem;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+    </style>
+    
+    <!-- Form register - email & password fields, register button -->
     <form method="POST" action="/register">
-      <label for="email">Email Address</label><br>
-      <input type="email" name="email" id="email" required /><br>
-      <label for="password">Password</label><br>
-      <input type="password" name="password" id="password" required /><br>
-      <button type="submit" class="btn btn-primary">Register</button>
+      <h5> Please register using the form below.</h5>
+      <label for="email">Email Address</label>
+      <input type="email" name="email" id="email" />
+      <label for="password">Password</label>
+      <input type="password" name="password" id="password" />
+      <div>
+        <button type="submit" class="btn btn-primary">Register</button>
       </div>
     </form>
     

@@ -2,8 +2,10 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <title>TinyApp - Index</title>
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
 
     <!-- Bootstrap CSS -->
     <link
@@ -12,41 +14,57 @@
       integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
       crossorigin="anonymous"
     />
+    <title>TinyApp</title>
   </head>
 
   <body>
-    <header><%- include('partials/_header') %> </header>
+
+    <header>
+      <!-- Include header partial -->
+      <%- include('partials/_header.ejs') %>
+    </header> 
+    
+    <!-- Table for URLs grid shortURL ID, LongURL columns-->
     <main style="margin: 1em">
-      <h3>My URLs</h3>
+      <h3>My URLs</h3>  
       <table class="table">
         <thead>
           <tr>
             <th scope="col">Short URL ID</th>
             <th scope="col">Long URL</th>
-            <th scope="col">Edit</th>
-            <th scope="col">Delete</th>
           </tr>
         </thead>
         <tbody>
+          <!-- Loop through URLs -->
           <% for (let id in urls) { %>
-            <tr>
-              <td><%= id %></td>
-              <td><%= urls[id] %></td>
-              <td>
-                <form method="GET" action="/urls/<%=url%>">
-                  <button type="submit" class="btn btn-outline-primary">Edit</button>
-                </form>
-              </td>
-              <td>
-                <form method="POST" action="/urls/<%=url%>/delete">
-                  <button type="submit" class="btn btn-danger">Delete</button>
-                </form>
-              </td>
+          <tr>
+            <td><%= id %></td>
+            <td><a href="/u/<%= id %>"></a><%= urls[id].longURL %></a>
+            <td>
+              <!-- Form for deleting URL -->
+              <form method="POST" action="/urls/<%= id %>/delete">
+                <button type="submit" class="btn btn-outline-danger">
+                  Delete
+                </button>
+              </form>
+            </td>
+            <td>
+              <!-- Edit button link -->
+              <a class="btn btn-outline-primary" href="/urls/<%= id %>/">Edit</a
+              >
+            </td>
           </tr>
           <% } %>
         </tbody>
       </table>
+    </table>
+    <% if (user) { %>
+      <div class="alert alert-info" role="alert">
+        Create a <a href="/urls/new" class="alert-info"><b>New Short URL</b></a>
+      </div>
+    <% } %>
     </main>
+
     <!-- Bootstrap JS -->
     <script
       src="https://code.jquery.com/jquery-3.3.1.slim.min.js"

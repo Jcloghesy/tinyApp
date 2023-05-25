@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    
     <!-- Bootstrap CSS -->
     <link
       rel="stylesheet"
@@ -8,31 +9,38 @@
       integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
       crossorigin="anonymous"
     />
-    <title>TinyApp - <%=shortURL%></title>
+    <title>URL - TinyApp</title>
   </head>
-  
+
   <body>
-    <header><%- include ./partials/_header %></header>
+
+    <header>
+      <!-- Include header partial -->
+      <%- include('partials/_header.ejs') %>
+    </header>
+    
+    <!-- Table to display individual URL -->
     <div class="card text-center">
       <div class="card-header"></div>
       <div class="card-body">
         <h5 class="card-title">TinyURL for: <%= longURL %></h5>
-        <p class="card-text"> Short URL ID: <a href="/u/<%= id %>"><%= id %></a>
+        <p class="card-text">
+          Short URL ID: <a href="/u/<%= id %>"><%= id %></a>
         </p>
-      </div>
-
-      <div>
-        <div class="card-body">
         <form method="POST" action="/urls/<%= id %>">
           <div class="form-group">
             <label for="longURL"> New long URL:</label>
-            <input type="text" class="form-control" id="longURL" name="longURL"
+            <input
+              type="text"
+              class="form-control"
+              id="longURL"
+              name="longURL"
               placeholder="Enter your long URL"
             />
           </div>
+          <!-- Update button -->
           <button type="submit" class="btn btn-primary">Update</button>
         </form>
-        </div>
       </div>
       <div class="card-footer text-muted"></div>
     </div>
