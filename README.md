@@ -33,7 +33,7 @@ TinyApp is a full stack web application
 * Run application by starting web server
 
 ```bash
-  node express_server
+  node express_server.js
 ```
 
 ## APPLICATION SCREENS
@@ -41,20 +41,20 @@ TinyApp is a full stack web application
 ***Login Page***
 ![User Login Page][Login ]
 
+***Logout Page***
+![User Logout Page][Logout ]
 
 ***User Registeration***
-
 ![User Registration Page][register]
 
-
 ***URLs - Main (View/Select)***
-
 ![Main URL Page - View][urls_index]
-
 
 ***URLs - Create New***
 ![URLS - Create New][urls_new]
 
+***URLs - Edit***
+![URLS - Create Edit][urls_show]
 
 ## ADDITIONAL INFORMATION
 
@@ -74,9 +74,11 @@ TinyApp is a full stack web application
 │
 ├─── docs
 │   ├─── login.PNG
+│   ├─── logout.PNG
 │   ├─── register.PNG
 │   ├─── urls_index.png
-│   └─── urls_new.png
+│   ├─── urls_new.png
+│   └─── urls_show.png
 │
 ├─── node_modules
 │   ├─── ...
@@ -88,7 +90,9 @@ TinyApp is a full stack web application
 │   ├─── partials
 │   │   ├─── _header.ejs
 │   │ 
+│   ├─── home.ejs
 │   ├─── login.ejs
+│   ├─── logout.ejs
 │   ├─── register.ejs
 │   ├─── urls_index.ejs
 │   ├─── urls_new.ejs
@@ -116,27 +120,14 @@ TinyApp is a full stack web application
 
 
 <!-- Images - Screen Captures & Logos, etc  -->
-[login]: /doc/login.png
-[register]: /doc/register.png
-[urls_index]: /doc/urls_index.png
-[urls_new]: /doc/urls_new.png
-[urls_show]: /doc/urls_show.png
+[login]: /docs/login.png
+[logout]: /docs/logout.png
+[register]: /docs/register.png
+[urls_index]: /docs/urls_index.png
+[urls_new]: /docs/urls_new.png
+[urls_show]: /docs/urls_show.png
 
 
 <!-- Additional Website Links -->
 [bit.ly]: https://bitly.com/
 [Lighthouse Labs - Web Development Program]: https://www.lighthouselabs.ca/en/web-development
-
-
-
-Pictures
-!["TinyApp Homepage"](https://github.com/jcloghesy/tinyapp/blob/master/docs/login.png?raw=true)
-
-!["TinyApp URLs directory page](https://github.com/katy-arushi/tinyapp/blob/master/docs/url_page.pn
-
-!["TinyApp Register Page"](https://github.com/katy-arushi/tinyapp/blob/master/docs/register_page.png?
-
-!["TinyApp Add URL Page"](https://github.com/katy-arushi/tinyapp/blob/master/docs/new_url_page.png?raw=true)
-
-!["TinyApp Add URL Page"](https://github.com/jcloghesy/tinyapp/blob/master/docs/url_new.png?raw=true)
-
